@@ -29,7 +29,7 @@
 ;; Buffer
 (depends-on "elscreen")
 
-;; Slim Mode
 (depends-on "slim-mode")
-
 (depends-on "yaml-mode")
+(depends-on "sass-mode")
+(depends-on "coffee-mode")
