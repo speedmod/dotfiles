@@ -82,9 +82,48 @@
 ;; 行番号
 (global-linum-mode t)
 
+;; Emacs equivalents of Vim's dd, o, O
+;; @see http://stackoverflow.com/questions/2173324/emacs-equivalents-of-vims-dd-o-o
+;; Vim's O
+(defun vi-open-line-above ()
+  "Insert a newline above the current line and put point at beginning."
+  (interactive)
+  (unless (bolp)
+    (beginning-of-line))
+  (newline)
+  (forward-line -1)
+  (indent-according-to-mode))
+
+;; Vim's o
+(defun vi-open-line-below ()
+  "Insert a newline below the current line and put point at beginning."
+  (interactive)
+  (unless (eolp)
+    (end-of-line))
+  (newline-and-indent))
+
+(defun vi-open-line (&optional abovep)
+  "Insert a newline below the current line and put point at beginning.
+With a prefix argument, insert a newline above the current line."
+  (interactive "P")
+  (if abovep
+      (vi-open-line-above)
+    (vi-open-line-below)))
+
+;; Vim's dd
+(defun kill-current-line (&optional n)
+  (interactive "p")
+  (save-excursion
+    (beginning-of-line)
+    (let ((kill-whole-line t))
+      (kill-line n))))
+
 ;;
 ;; キーバインド
 ;;
+(define-key global-map (kbd "C-o") 'vi-open-line-below)   ; Vim's o
+(define-key global-map (kbd "C-@") 'vi-open-line-above)   ; Vim's O
+(define-key global-map (kbd "C-S-k") 'kill-current-line)  ; Vim's dd
 (define-key global-map (kbd "C-h") 'delete-backward-char) ; Backspace
 (define-key global-map (kbd "M-C-h") 'help-for-help)      ; ヘルプ
 (define-key global-map (kbd "C-c C-i") 'indent-region)    ; インデント
@@ -93,7 +132,10 @@
 (define-key global-map (kbd "C-7") 'comment-region)       ; 範囲コメントアウト
 (define-key global-map (kbd "C-8") 'uncomment-region)     ; 範囲アンコメント
 (define-key global-map (kbd "M-C-g") 'grep)               ; grep
-(define-key global-map (kbd "M-C-l") 'goto-line)      ; 指定行へ移動
+(define-key global-map (kbd "M-C-l") 'goto-line)          ; 指定行へ移動
+;; キーバインド of elscreen
+(define-key global-map (kbd "C-^") 'elscreen-next)     ; 次スクリーン
+(define-key global-map (kbd "C-~") 'elscreen-previous) ; 前スクリーン
 
 ;; 上にスクロール
 (define-key global-map (kbd "C-u") 'scroll-down) 
