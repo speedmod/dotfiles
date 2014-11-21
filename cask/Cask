@@ -31,3 +31,5 @@
 
 ;; Slim Mode
 (depends-on "slim-mode")
+
+(depends-on "yaml-mode")

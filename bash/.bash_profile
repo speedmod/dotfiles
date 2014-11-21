@@ -3,7 +3,7 @@
 eval "$(rbenv init -)"
 
 ## Aliases
-alias ls='ls -aF'
+alias ls='ls -aFG'
 alias ll='ls -l'
 alias be='bundle exec'
 
@@ -13,10 +13,14 @@ sp () {
     bundle exec rake spec SPEC=$1
 }
 
-# リポジトリからブランチを取得
+# リポジトリからブランチを取得し、そのブランチにチェックアウト
 co () {
+    echo "> git fetch origin $1"
     git fetch origin $1
+    echo "> git branch $1 origin/$1"
     git branch $1 origin/$1
+    echo "> git checkout $1"
+    git checkout $1
 }
 
 # 英単語の用例を抽出
