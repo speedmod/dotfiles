@@ -149,3 +149,6 @@ With a prefix argument, insert a newline above the current line."
 (define-key global-map (kbd "C-. C-.") 'split-window-horizontally)
 ;; ウィンドウの削除
 (define-key global-map (kbd "C-0") 'delete-window)
+
+;; ruby-modeへの設定追加
+(setq ruby-insert-encoding-magic-comment nil)
