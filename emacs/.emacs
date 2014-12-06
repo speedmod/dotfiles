@@ -183,3 +183,8 @@ With a prefix argument, insert a newline above the current line."
  
 ;; ruby-modeへの設定追加
 (setq ruby-insert-encoding-magic-comment nil)
+
+;; 【Mac】特殊キーバインド対応
+;; @see http://moya-notes.blogspot.jp/2013/02/emacs24-config-on-mac.html
+;; 逆に￥の小文字が入力できない
+(define-key global-map [?¥] [?\\])
