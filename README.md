@@ -24,7 +24,7 @@ $ ln -s dotfiles/bash/.bash_prompt .bash_prompt
 
 ```bash
 $ cd 
-$ brew cask
+$ brew install cask
 $ ln -s dotfiles/emacs/.emacs .emacs
 $ cd .emacs.d
 $ ln -s dotfiles/cask/Cask Cask
