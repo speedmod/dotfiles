@@ -20,6 +20,9 @@ $ ln -s dotfiles/bash/.bash_profile .bash_profile
 $ ln -s dotfiles/bash/.bash_prompt .bash_prompt
 ```
 
+ターミナル＞環境設定＞プロファイルから「Pro」をデフォルトとして選択
+フォントはMonacoの14ptを設定。
+
 ### emacs
 
 ```bash
