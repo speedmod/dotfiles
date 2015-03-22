@@ -45,12 +45,11 @@ $ ln -s dotfiles/cask/Cask Cask
 
 requireするcaskのelファイルのパスをインストール先に置き換える。
 
-そのあと、
+そのあと
 
 ```bash
 $ cask init
+$ cask install
 ```
 
-emacsを起動すると、elscreenあたりでエラーが出る可能性があるがその場合には適宜コメントアウトしてしまう。
-elscreenはcaskで管理すればいいのです
-
+emacsが正しく起動することを確認する。
