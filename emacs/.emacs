@@ -1,7 +1,8 @@
 ;;
 ;; Cask
 ;;
-(require 'cask "~/.emacs.d/.cask/24.4.1/elpa/cask-20141109.309/cask.el")
+(require 'cask "/usr/local/Cellar/cask/0.7.2/cask.el")
+;; ~/.emacs.d/.cask/24.4.1/elpa/cask-20141109.309/cask.el")
 (cask-initialize)
 
 ;;
@@ -31,6 +32,15 @@
 
 ;;; 対応する括弧を光らせる
 (show-paren-mode 1)
+
+;; 列番号表示
+(column-number-mode t)
+
+;; 起動時のメッセージを消す
+(setq inhibit-startup-message t)
+
+;; スクラッチのメッセージを消す
+(setq initial-scratch-message "")
 
 ;; @see http://d.hatena.ne.jp/kazu-yamamoto/20140625/1403674172
 ;; Mac 用のフォント設定
@@ -139,8 +149,27 @@ With a prefix argument, insert a newline above the current line."
   (interactive)
   (shift-region -1))
 
+;; 縦分割と横分割のトグル
+;; cf. http://www.bookshelf.jp/soft/meadow_30.html#SEC404
+(defun window-toggle-division ()
+  "ウィンドウ 2 分割時に、縦分割<->横分割"
+  (interactive)
+  (unless (= (count-windows 1) 2)
+    (error "ウィンドウが 2 分割されていません。"))
+  (let (before-height (other-buf (window-buffer (next-window))))
+    (setq before-height (window-height))
+    (delete-other-windows)
+
+    (if (= (window-height) before-height)
+        (split-window-vertically)
+      (split-window-horizontally)
+      )
+
+    (switch-to-buffer-other-window other-buf)
+    (other-window -1)))
+
 ;; Bind (shift-right) and (shift-left) function to your favorite keys. I use
-;; the following so that Ctrl-Shift-Right Arrow moves selected text one 
+;; the following so that Ctrl-Shift-Right Arrow moves selected text one
 ;; column to the right, Ctrl-Shift-Left Arrow moves selected text one
 ;; column to the left:
 
@@ -150,7 +179,7 @@ With a prefix argument, insert a newline above the current line."
 ;;
 ;; キーバインド
 ;;
-(define-key global-map (kbd "C-5") 'shift-right) ; Shift right 
+(define-key global-map (kbd "C-5") 'shift-right) ; Shift right
 (define-key global-map (kbd "C-4") 'shift-left)  ; Shift left
 (define-key global-map (kbd "C-o") 'vi-open-line-below)   ; Vim's o
 (define-key global-map (kbd "C-@") 'vi-open-line-above)   ; Vim's O
@@ -169,9 +198,9 @@ With a prefix argument, insert a newline above the current line."
 (define-key global-map (kbd "C-~") 'elscreen-previous) ; 前スクリーン
 
 ;; 上にスクロール
-(define-key global-map (kbd "C-u") 'scroll-down) 
+(define-key global-map (kbd "C-u") 'scroll-down)
 ;; 次のウィンドウへ移動
-(define-key global-map (kbd "C-t") 'next-multiframe-window) 
+(define-key global-map (kbd "C-t") 'next-multiframe-window)
 ;; 前のウィンドウへ移動
 (define-key global-map (kbd "C-S-t") 'previous-multiframe-window)
 ;; 上下二分割(C-x 2)
@@ -180,7 +209,8 @@ With a prefix argument, insert a newline above the current line."
 (define-key global-map (kbd "C-. C-.") 'split-window-horizontally)
 ;; ウィンドウの削除
 (define-key global-map (kbd "C-0") 'delete-window)
- 
+;; 縦分割と横分割のトグル
+(define-key global-map (kbd "<f5>") 'window-toggle-division)
 ;; ruby-modeへの設定追加
 (setq ruby-insert-encoding-magic-comment nil)
 
@@ -188,3 +218,51 @@ With a prefix argument, insert a newline above the current line."
 ;; @see http://moya-notes.blogspot.jp/2013/02/emacs24-config-on-mac.html
 ;; 逆に￥の小文字が入力できない
 (define-key global-map [?¥] [?\\])
+
+;;
+(setq markdown-command "/bin/sh /usr/local/bin/markdown")
+
+;; whitespace-modeの設定
+;; @see http://qiita.com/itiut@github/items/4d74da2412a29ef59c3a
+(require 'whitespace)
+(setq whitespace-style '(face           ; faceで可視化
+                         trailing       ; 行末
+                         tabs           ; タブ
+                         spaces         ; スペース
+                         empty          ; 先頭/末尾の空行
+                         space-mark     ; 表示のマッピング
+                         tab-mark
+                         ))
+
+(setq whitespace-display-mappings
+      '((space-mark ?\u3000 [?\u25a1])
+        ;; WARNING: the mapping below has a problem.
+        ;; When a TAB occupies exactly one column, it will display the
+        ;; character ?\xBB at that column followed by a TAB which goes to
+        ;; the next TAB column.
+        ;; If this is a problem for you, please, comment the line below.
+        (tab-mark ?\t [?\u00BB ?\t] [?\\ ?\t])))
+
+;; スペースは全角のみを可視化
+(setq whitespace-space-regexp "\\(\u3000+\\)")
+
+;; 保存前に自動でクリーンアップ
+(setq whitespace-action '(auto-cleanup))
+
+(global-whitespace-mode 1)
+
+(defvar my/bg-color "#232323")
+(set-face-attribute 'whitespace-trailing nil
+                    :background my/bg-color
+                    :foreground "DeepPink"
+                    :underline t)
+(set-face-attribute 'whitespace-tab nil
+                    :background my/bg-color
+                    :foreground "LightSkyBlue"
+                    :underline t)
+(set-face-attribute 'whitespace-space nil
+                    :background my/bg-color
+                    :foreground "GreenYellow"
+                    :weight 'bold)
+(set-face-attribute 'whitespace-empty nil
+                    :background my/bg-color)
