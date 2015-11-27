@@ -211,6 +211,10 @@ With a prefix argument, insert a newline above the current line."
 (define-key global-map (kbd "C-0") 'delete-window)
 ;; 縦分割と横分割のトグル
 (define-key global-map (kbd "<f5>") 'window-toggle-division)
+;; 新規フレーム（C-x 5 2はそもそも謎コマンドだし、日本語がonだとウザいので）
+(define-key global-map (kbd "C-S-f") 'make-frame)
+;; バッファ移動（C-x bだと、日本語がonだとウザいので）
+(define-key global-map (kbd "C-S-b") 'switch-to-buffer)
 ;; ruby-modeへの設定追加
 (setq ruby-insert-encoding-magic-comment nil)
 
