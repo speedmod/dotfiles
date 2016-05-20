@@ -33,10 +33,9 @@
 (depends-on "yaml-mode")
 (depends-on "sass-mode")
 (depends-on "coffee-mode")
-
 (depends-on "markdown-mode")
+(depends-on "js2-mode")
 
 ;; Yet another package for emacs persistent sessions
 ;; @see https://github.com/thierryvolpiatto/psession
 (depends-on "psession")
-

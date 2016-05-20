@@ -270,3 +270,5 @@ With a prefix argument, insert a newline above the current line."
                     :weight 'bold)
 (set-face-attribute 'whitespace-empty nil
                     :background my/bg-color)
+
+(add-to-list 'auto-mode-alist '("\\.jsx\\'" . js2-jsx-mode))
